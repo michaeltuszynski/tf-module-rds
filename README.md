@@ -4,6 +4,7 @@ Note: Only supports mysql
 
 ```hcl
 module "mysql-rds" {
+  source = "git::https://github.com/michaeltuszynski/tf-module-rds.git?ref=main"
   vpc_id = "abcdef123"
   vpc_cidr_block = "10.0.0.0/16"
   mysql_db_port = "3306"
