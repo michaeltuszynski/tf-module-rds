@@ -26,7 +26,7 @@ variable "mysql_db_port" {
   default     = 3306
 }
 
-variable "private_subnet_ids" {
+variable "allowed_cidr_blocks" {
   description = "The IDs of the private subnets"
   type        = list(string)
 }
@@ -51,5 +51,11 @@ variable "max_allocated_storage" {
   description = "The maximum amount of storage to allocate to the RDS instance"
   type        = number
   default     = 100
+}
+
+variable "instance_class" {
+  description = "The instance class to use for the RDS instance"
+  type        = string
+  default     = "db.t3.micro"
 }
 

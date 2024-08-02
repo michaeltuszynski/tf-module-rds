@@ -44,12 +44,19 @@ resource "aws_security_group" "rds_mysql_sg" {
     description = "${var.project_name}-db-port"
   }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags = var.tags
 }
 
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "rds-subnet-group"
-  subnet_ids = var.private_subnet_ids
+  subnet_ids = var.allowed_cidr_blocks
 
   tags = merge(
     {
@@ -92,7 +99,7 @@ resource "aws_db_instance" "mysql_db" {
   storage_type                = "gp3"
   engine                      = "mysql"
   engine_version              = "8.0.35"
-  instance_class              = "db.t3.micro"
+  instance_class              = var.instance_class
   db_name                     = var.db_identifier
   parameter_group_name        = "default.mysql8.0"
   skip_final_snapshot         = true
