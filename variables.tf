@@ -73,7 +73,7 @@ variable "backup_window" {
 variable "maintenance_window" {
   description = "The preferred maintenance window"
   type        = string
-  default     = "sun:00:00-sun:01:00"
+  default     = "sun:01:00-sun:02:00"
 }
 
 variable "multi_az" {
