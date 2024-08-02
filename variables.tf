@@ -58,3 +58,27 @@ variable "instance_class" {
   default     = "db.t3.micro"
 }
 
+variable "backup_retention_period" {
+  description = "The number of days to retain backups"
+  type        = number
+  default     = 0
+}
+
+variable "backup_window" {
+  description = "The preferred backup window"
+  type        = string
+  default     = "00:00-00:00"
+}
+
+variable "maintenance_window" {
+  description = "The preferred maintenance window"
+  type        = string
+  default     = "sun:00:00-sun:01:00"
+}
+
+variable "multi_az" {
+  description = "Enable Multi-AZ"
+  type        = bool
+  default     = false
+}
+

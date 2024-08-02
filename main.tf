@@ -116,9 +116,11 @@ resource "aws_db_instance" "mysql_db" {
   password = jsondecode(aws_secretsmanager_secret_version.db_secret_version.secret_string)["password"]
 
   # Backup settings
-  backup_retention_period = 7                     # Keep backups for 7 days
-  backup_window           = "07:00-09:00"         # Preferred backup window
-  maintenance_window      = "sun:05:00-sun:06:00" # Preferred maintenance window
+  backup_retention_period = var.backup_retention_period
+  backup_window           = var.backup_window
+  maintenance_window      = var.maintenance_window
+
+  multi_az                = var.multi_az
 
   tags = var.tags
 }
