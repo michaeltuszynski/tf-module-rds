@@ -5,11 +5,12 @@ Note: Only supports mysql
 ```hcl
 module "mysql-rds" {
   source = "git::https://github.com/michaeltuszynski/tf-module-rds.git?ref=main"
+  project_name = "common_project"
   vpc_id = "abcdef123"
   vpc_cidr_block = "10.0.0.0/16"
   mysql_db_port = 3306
   allowed_cidr_blocks = ["10.0.3.0/24","10.0.4.0/24"]
-  db_identifier = "mydb" #no special characters
+  db_identifier = "demo" #no special characters-"db" will appended
   allocated_storage = 20
   max_allocated_storage = 100
   instance_class = "db.t3.micro"

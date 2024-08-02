@@ -55,7 +55,7 @@ resource "aws_security_group" "rds_mysql_sg" {
 }
 
 resource "aws_db_subnet_group" "rds_subnet_group" {
-  name       = "rds-subnet-group"
+  name       = "${var.project_name}-rds-subnet-group"
   subnet_ids = var.allowed_cidr_blocks
 
   tags = merge(
@@ -91,7 +91,7 @@ resource "aws_iam_role_policy_attachment" "rds_monitoring_policy_attachment" {
 }
 
 resource "aws_db_instance" "mysql_db" {
-  identifier                  = var.db_identifier
+  identifier                  = "${var.project_name}-${var.db_identifier}-${random_string.suffix.result}"
   allocated_storage           = var.allocated_storage
   max_allocated_storage       = var.max_allocated_storage
   monitoring_interval         = 60
@@ -100,7 +100,7 @@ resource "aws_db_instance" "mysql_db" {
   engine                      = "mysql"
   engine_version              = "8.0.35"
   instance_class              = var.instance_class
-  db_name                     = var.db_identifier
+  db_name                     = "${var.db_identifier}db"
   parameter_group_name        = "default.mysql8.0"
   skip_final_snapshot         = true
   vpc_security_group_ids      = ["${aws_security_group.rds_mysql_sg.id}"]
@@ -109,6 +109,7 @@ resource "aws_db_instance" "mysql_db" {
   ca_cert_identifier          = "rds-ca-rsa2048-g1"
   allow_major_version_upgrade = true
   auto_minor_version_upgrade  = true
+  storage_encrypted           = true
 
   # Pointing to the secrets manager for credentials
   username = jsondecode(aws_secretsmanager_secret_version.db_secret_version.secret_string)["username"]
