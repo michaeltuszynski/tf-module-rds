@@ -95,25 +95,26 @@ locals {
 }
 
 resource "aws_db_instance" "mysql_db" {
-  identifier                  = "${var.project_name}-${var.db_identifier}-${random_string.suffix.result}"
-  allocated_storage           = var.allocated_storage
-  max_allocated_storage       = var.max_allocated_storage
-  monitoring_interval         = 60
-  monitoring_role_arn         = aws_iam_role.rds_monitoring_role.arn
-  storage_type                = "gp3"
-  engine                      = "mysql"
-  engine_version              = "8.0.35"
-  instance_class              = var.instance_class
-  db_name                     = local.db_name
-  parameter_group_name        = "default.mysql8.0"
-  skip_final_snapshot         = true
-  vpc_security_group_ids      = ["${aws_security_group.rds_mysql_sg.id}"]
-  db_subnet_group_name        = aws_db_subnet_group.rds_subnet_group.name
-  publicly_accessible         = true
-  ca_cert_identifier          = "rds-ca-rsa2048-g1"
-  allow_major_version_upgrade = true
-  auto_minor_version_upgrade  = true
-  storage_encrypted           = true
+  identifier                          = "${var.project_name}-${var.db_identifier}-${random_string.suffix.result}"
+  allocated_storage                   = var.allocated_storage
+  max_allocated_storage               = var.max_allocated_storage
+  monitoring_interval                 = 60
+  monitoring_role_arn                 = aws_iam_role.rds_monitoring_role.arn
+  storage_type                        = "gp3"
+  engine                              = "mysql"
+  engine_version                      = "8.0.35"
+  instance_class                      = var.instance_class
+  db_name                             = local.db_name
+  parameter_group_name                = "default.mysql8.0"
+  skip_final_snapshot                 = true
+  vpc_security_group_ids              = ["${aws_security_group.rds_mysql_sg.id}"]
+  db_subnet_group_name                = aws_db_subnet_group.rds_subnet_group.name
+  publicly_accessible                 = true
+  ca_cert_identifier                  = "rds-ca-rsa2048-g1"
+  allow_major_version_upgrade         = true
+  auto_minor_version_upgrade          = true
+  storage_encrypted                   = true
+  iam_database_authentication_enabled = true
 
   # Pointing to the secrets manager for credentials
   username = jsondecode(aws_secretsmanager_secret_version.db_secret_version.secret_string)["username"]
@@ -124,7 +125,7 @@ resource "aws_db_instance" "mysql_db" {
   backup_window           = var.backup_window
   maintenance_window      = var.maintenance_window
 
-  multi_az                = var.multi_az
+  multi_az = var.multi_az
 
   tags = var.tags
 }
