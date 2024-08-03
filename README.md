@@ -14,6 +14,7 @@ module "mysql-rds" {
   allocated_storage = 20
   max_allocated_storage = 100
   instance_class = "db.t3.micro"
+  iam_database_authentication_enabled = false
 }
 ```
 

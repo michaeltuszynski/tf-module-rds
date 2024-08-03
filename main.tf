@@ -114,7 +114,7 @@ resource "aws_db_instance" "mysql_db" {
   allow_major_version_upgrade         = true
   auto_minor_version_upgrade          = true
   storage_encrypted                   = true
-  iam_database_authentication_enabled = true
+  iam_database_authentication_enabled = var.iam_database_authentication_enabled
 
   # Pointing to the secrets manager for credentials
   username = jsondecode(aws_secretsmanager_secret_version.db_secret_version.secret_string)["username"]

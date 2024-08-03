@@ -82,3 +82,9 @@ variable "multi_az" {
   default     = false
 }
 
+variable "iam_database_authentication_enabled" {
+  description = "Enable IAM database authentication"
+  type        = bool
+  default     = false
+}
+
