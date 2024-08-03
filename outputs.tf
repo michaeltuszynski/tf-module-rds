@@ -32,3 +32,8 @@ output "db_credentials_secret_name" {
   description = "The name of the Secrets Manager secret for DB credentials"
   value       = aws_secretsmanager_secret.db_credentials.name
 }
+
+output "db_security_group_id" {
+  description = "The ID of the security group associated with the RDS instance"
+  value       = aws_security_group.rds_mysql_sg.id
+}
